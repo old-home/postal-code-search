@@ -1,2 +1,5 @@
 # postal-code-search
-Get address from zip code.
+
+## DB設計
+
+* [ER図](doc/001-er_diagram.md)
