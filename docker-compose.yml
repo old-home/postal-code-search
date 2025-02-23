@@ -1,0 +1,31 @@
+services:
+  nginx:
+    container_name: "nginx"
+    build:
+      context: ./docker/nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./:/src
+
+  php:
+    container_name: "php"
+    build:
+      context: ./docker/php
+    volumes:
+      - ./:/src
+      - /src/node_modules
+      - /src/vendor
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+
+  mysql:
+    image: mysql:latest
+    command: --max_allowed_packet=32505856
+    container_name: "mysql"
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mysql
+    ports:
+      - 3306:3306
