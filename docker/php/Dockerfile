@@ -11,8 +11,8 @@ RUN apt-get update \
     libpng-dev \
     libfontconfig1 \
     libxrender1 && \
-    docker-etc-ext-configure gd --with-freetype --with-jpeg && \
-    docker-etc-ext-install gd bcmath pdo_mysql exif && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd bcmath pdo_mysql exif && \
     pecl install redis
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
