@@ -4,34 +4,38 @@ services:
     build:
       context: ./docker/nginx
     ports:
-      - 80:80
+      - "80:80"
     volumes:
       - ./:/src
 
-  php:
+  app:
     container_name: "php"
     build:
       context: ./docker/php
     volumes:
       - ./:/src
       - node_modules:/src/node_modules
-      - vender:/src/vendor
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+      - vendor:/src/vendor
+      - ./docker/php/etc/:/usr/local/etc/php/
 
-  mysql:
+  db:
     image: mysql:latest
-    command: --max_allowed_packet=32505856
     container_name: "mysql"
     volumes:
-      - ./docker/mysql:/var/lib/mysql
+      - db-data:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=${DB_DATABASE}
       - MYSQL_USER=${DB_USERNAME}
       - MYSQL_PASSWORD=${DB_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
-      - 3306:3306
+      - "3306:3306"
+
+  cache:
+    image: redis:latest
+    container_name: "cache"
 
 volumes:
-  vender:
+  vendor:
   node_modules:
+  db-data:
